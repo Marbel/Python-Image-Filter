@@ -8,11 +8,14 @@ img = cv2.imread("test.jpg")
 #     print "Image is loaded"
 
 size = img.shape
-
+# make a gray scale picture
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+# apply contrast and brightness
+cb_img = cv2.addWeighted(img,4,np.zeros(img.shape,dtype=img.dtype),0,100)
 
 cv2.imshow('test',img)
 cv2.imshow('test1',gray)
+cv2.imshow('test2',cb_img)
 
 
 
