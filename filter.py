@@ -12,11 +12,18 @@ size = img.shape
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 # apply contrast and brightness
 cb_img = cv2.addWeighted(img,4,np.zeros(img.shape,dtype=img.dtype),0,100)
+# apply kenel
+K= np.array([
+    [0,-1,0],
+    [-1,5,-1],
+    [0,-1,0]
+])
+convolved = cv2.filter2D(img,-1,K)
 
 cv2.imshow('test',img)
 cv2.imshow('test1',gray)
 cv2.imshow('test2',cb_img)
-
+cv2.imshow('test3',convolved)
 
 
 cv2.waitKey(0)
