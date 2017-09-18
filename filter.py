@@ -16,11 +16,15 @@ cv2.createTrackbar('filter',windowName,0,1,dummy)
 cv2.createTrackbar('grayScale',windowName,0,1,dummy)
 
 while True:
-    cv2.imshow(windowName,color_original)
+    cv2.imshow(windowName,color_modified)
     k = cv2.waitKey(1) & 0xFF
     if k == ord('q'):
         break
 
+    contrast = cv2.getTrackbarPos('contrast',windowName)
+    brightness = cv2.getTrackbarPos('brightness',windowName)
+    # Apply modifications to picture
+    color_modified = cv2.addWeighted(color_original,contrast,np.zeros(color_original.shape,dtype=color_original.dtype),0,brightness-50)
 
 cv2.destroyAllWindows()
 
