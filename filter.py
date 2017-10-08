@@ -4,6 +4,11 @@ import cv2
 def dummy(val):
     pass
 
+identity_kernel = np.array([[0,0,0],[0,1,0],[0,0,0]])
+sharpen_kernel = np.array([[0,-1,0],[-1,5,-1],[0,-1,0]])
+gaussian_kernel = np.array([[1,2,1],[2,4,2],[1,2,1]], np.float32) / 16
+
+kernels = [identity_kernel,sharpen_kernel,gaussian_kernel]
 
 windowName = 'app'
 color_original = cv2.imread("test.jpg")
@@ -12,7 +17,7 @@ color_modified = color_original.copy()
 cv2.namedWindow(windowName)
 cv2.createTrackbar('contrast',windowName,1,100,dummy)
 cv2.createTrackbar('brightness',windowName,50,100,dummy)
-cv2.createTrackbar('filter',windowName,0,1,dummy)
+cv2.createTrackbar('filter',windowName,0,len(kernels)-1,dummy)
 cv2.createTrackbar('grayScale',windowName,0,1,dummy)
 
 while True:
@@ -23,8 +28,12 @@ while True:
 
     contrast = cv2.getTrackbarPos('contrast',windowName)
     brightness = cv2.getTrackbarPos('brightness',windowName)
+    kernel = cv2.getTrackbarPos('filter',windowName)
+
+    color_modified = cv2.filter2D(color_original,-1,kernels[kernel])
+
     # Apply modifications to picture
-    color_modified = cv2.addWeighted(color_original,contrast,np.zeros(color_original.shape,dtype=color_original.dtype),0,brightness-50)
+    color_modified = cv2.addWeighted(color_modified,contrast,np.zeros(color_original.shape,dtype=color_original.dtype),0,brightness-50)
 
 cv2.destroyAllWindows()
 
