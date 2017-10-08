@@ -51,6 +51,8 @@ coverage.xml
 
 # Django stuff:
 *.log
+
+output*.png
 local_settings.py
 
 # Flask instance folder
